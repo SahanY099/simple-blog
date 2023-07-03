@@ -1,7 +1,8 @@
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import React, { forwardRef } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Outlet, Link as RouterLink } from "react-router-dom";
 
+import { AuthProvider } from "@features/auth";
 import { Header } from "@features/ui";
 
 const LinkBehavior = forwardRef((props, ref) => {
@@ -41,7 +42,10 @@ function Root() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Header />
+      <AuthProvider>
+        <Header />
+        <Outlet />
+      </AuthProvider>
     </ThemeProvider>
   );
 }

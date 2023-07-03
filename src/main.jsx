@@ -1,8 +1,10 @@
+import { Login, Root } from "@routes";
+import axios from "axios";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { App, Root } from "@routes";
+axios.defaults.baseURL = "http://127.0.0.1:8000";
 
 const router = createBrowserRouter([
   {
@@ -11,7 +13,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/login",
-        element: <App />,
+        element: <Login />,
       },
     ],
   },
