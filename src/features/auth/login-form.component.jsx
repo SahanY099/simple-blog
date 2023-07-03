@@ -1,15 +1,21 @@
+import { AuthContext } from "./auth.context";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
+  Alert,
   Button,
   IconButton,
   InputAdornment,
   Stack,
   TextField,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm({ onSubmit }) {
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [isCredsInvalid, setIsCredsInvalid] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const {
     control,
@@ -22,6 +28,12 @@ function LoginForm({ onSubmit }) {
     },
   });
 
+  async function onSubmit({ username, password }) {
+    const { isInvalid } = await login({ username, password });
+    if (isInvalid) setIsCredsInvalid(true);
+    else navigate("/");
+  }
+
   return (
     <Stack
       direction="column"
@@ -29,6 +41,11 @@ function LoginForm({ onSubmit }) {
       component="form"
       onSubmit={handleSubmit(onSubmit)}
     >
+      {isCredsInvalid && (
+        <Alert severity="error" sx={{ px: 4 }}>
+          Username or Password is incorrect{" "}
+        </Alert>
+      )}
       <Controller
         name="username"
         control={control}
@@ -76,8 +93,10 @@ function LoginForm({ onSubmit }) {
       <Button
         variant="contained"
         fullWidth
+        // disabled={isSubmited}
         type="submit"
         sx={{ mt: 2, fontWeight: 600 }}
+        // onClick={() => setIsSubmited(true)}
       >
         Login
       </Button>

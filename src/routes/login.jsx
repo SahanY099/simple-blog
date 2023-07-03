@@ -1,12 +1,16 @@
 import { Container } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 
-import { LoginForm } from "@features/auth";
+import { AuthContext, LoginForm } from "@features/auth";
 
 function Login() {
-  const handleSubmit = (data) => {
-    console.log(data);
-  };
+  // const { login } = useContext(AuthContext);
+
+  function handleSubmit({ username, password }) {
+    // console.log(data);
+    // const res = login(username, password);
+    // console.log(res);
+  }
 
   return (
     <Container
@@ -19,7 +23,7 @@ function Login() {
         alignItems: "center",
       }}
     >
-      <LoginForm onSubmit={handleSubmit} />
+      <LoginForm onSubmits={handleSubmit} />
     </Container>
   );
 }
