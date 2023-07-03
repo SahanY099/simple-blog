@@ -1,6 +1,6 @@
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import React, { forwardRef } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Outlet, Link as RouterLink } from "react-router-dom";
 
 import { Header } from "@features/ui";
 
@@ -42,6 +42,7 @@ function Root() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Header />
+      <Outlet />
     </ThemeProvider>
   );
 }
