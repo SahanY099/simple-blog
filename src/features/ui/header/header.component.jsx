@@ -2,17 +2,33 @@ import {
   AppBar,
   Container,
   IconButton,
+  Menu,
+  MenuItem,
   Stack,
   Toolbar,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useContext, useState } from "react";
 
 import MenuIcon from "@mui/icons-material/menu";
 
+import { AuthContext } from "@features/auth";
 import NavLink from "./nav-link.component";
+import { AccountCircle } from "@mui/icons-material";
 
 export default function Header() {
+  const { user } = useContext(AuthContext);
+  const isAuthenticated = user.token != null;
+  const [anchorElUser, setAnchorElUser] = useState(null);
+
+  const handleMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
   return (
     <AppBar position="static" color="background" elevation={1}>
       <Container maxWidth="lg">
@@ -42,10 +58,41 @@ export default function Header() {
             </Stack>
             <Stack direction="row" gap={2}>
               <NavLink href="/">Home</NavLink>
-              <NavLink href="/feed">Temp</NavLink>
             </Stack>
             <Stack direction="row" gap={2}>
-              <NavLink href="/login">Login</NavLink>
+              {isAuthenticated ? (
+                <div>
+                  <IconButton
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    onClick={handleMenu}
+                    color="primary"
+                  >
+                    <AccountCircle sx={{ width: "100%" }} />
+                  </IconButton>
+                  <Menu
+                    sx={{ mt: "45px" }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                  >
+                    <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
+                    <MenuItem onClick={handleCloseUserMenu}>Logout</MenuItem>
+                  </Menu>
+                </div>
+              ) : (
+                <NavLink href="/login">Login</NavLink>
+              )}
             </Stack>
           </Stack>
         </Toolbar>
