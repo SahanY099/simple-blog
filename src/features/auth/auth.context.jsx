@@ -20,8 +20,13 @@ export function AuthProvider({ children }) {
     return { isInvalid };
   }
 
+  function logout() {
+    localStorage.removeItem("user");
+    setUser(AnonymousUser);
+  }
+
   return (
-    <AuthContext.Provider value={{ user, login }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

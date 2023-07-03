@@ -17,7 +17,7 @@ import NavLink from "./nav-link.component";
 import { AccountCircle } from "@mui/icons-material";
 
 export default function Header() {
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const isAuthenticated = user.token != null;
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -87,7 +87,14 @@ export default function Header() {
                     onClose={handleCloseUserMenu}
                   >
                     <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
-                    <MenuItem onClick={handleCloseUserMenu}>Logout</MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        handleCloseUserMenu();
+                        logout();
+                      }}
+                    >
+                      Logout
+                    </MenuItem>
                   </Menu>
                 </div>
               ) : (
