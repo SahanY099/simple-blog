@@ -1,4 +1,4 @@
-import { Home, Login, Root } from "@routes";
+import { Home, Login, NewPost, Root } from "@routes";
 import axios from "axios";
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -18,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/new-post",
+        element: <NewPost />,
       },
     ],
   },

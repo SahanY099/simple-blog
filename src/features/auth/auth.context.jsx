@@ -1,7 +1,8 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 import AuthService from "./auth-service";
 import { AnonymousUser } from "./defaults";
+import axios from "axios";
 
 const DefaultProps = {
   login: () => null,
@@ -24,6 +25,12 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("user");
     setUser(AnonymousUser);
   }
+
+  // adds auth token to all requests is user is loged in
+  useEffect(() => {
+    if (user.token)
+      axios.defaults.headers.common["Authorization"] = `Token ${user.token}`;
+  }, [user]);
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>

@@ -2,6 +2,9 @@ import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import React, { forwardRef } from "react";
 import { Outlet, Link as RouterLink } from "react-router-dom";
 
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
 import { AuthProvider } from "@features/auth";
 import { Header } from "@features/ui";
 
@@ -40,13 +43,15 @@ const theme = createTheme({
 
 function Root() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <AuthProvider>
-        <Header />
-        <Outlet />
-      </AuthProvider>
-    </ThemeProvider>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <AuthProvider>
+          <Header />
+          <Outlet />
+        </AuthProvider>
+      </ThemeProvider>
+    </LocalizationProvider>
   );
 }
 
