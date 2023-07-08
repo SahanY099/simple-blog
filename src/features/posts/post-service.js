@@ -2,6 +2,7 @@ import axios from "axios";
 
 const PostListUrl = "/posts/list/";
 const PostCreateUrl = "/posts/create/";
+const PostDetailView = (id) => `/posts/${id}/details/`;
 
 class PostService {
   static async getPosts() {
@@ -16,6 +17,15 @@ class PostService {
         content,
         publish_date: publishDate,
       });
+      return res;
+    } catch (error) {
+      return error.response;
+    }
+  }
+
+  static async getPost(id) {
+    try {
+      const res = await axios.get(PostDetailView(id));
       return res;
     } catch (error) {
       return error.response;

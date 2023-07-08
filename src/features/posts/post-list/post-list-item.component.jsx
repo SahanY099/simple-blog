@@ -7,7 +7,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import * as React from "react";
+import React from "react";
 
 function PostListItem({ id, title, content, publish_date, author }) {
   return (
@@ -28,7 +28,9 @@ function PostListItem({ id, title, content, publish_date, author }) {
         sx={{ width: "50%" }}
       >
         <CardActions>
-          <Button size="small">Read more</Button>
+          <Button size="small" href={`/${id}`}>
+            Read more
+          </Button>
         </CardActions>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           {publish_date}
