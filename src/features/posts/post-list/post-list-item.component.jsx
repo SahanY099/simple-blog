@@ -7,7 +7,27 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { ParagraphOutput } from "editorjs-react-renderer";
 import React from "react";
+
+import { findFirstParagraph } from "./uitls";
+
+function PostContentPreview({ content }) {
+  return (
+    <Box
+      sx={{
+        "& p": {
+          display: "-webkit-box",
+          "-webkit-line-clamp": "3",
+          "-webkit-box-orient": "vertical",
+          overflow: "hidden",
+        },
+      }}
+    >
+      <ParagraphOutput data={findFirstParagraph(JSON.parse(content).blocks)} />
+    </Box>
+  );
+}
 
 function PostListItem({ id, title, content, publish_date, author }) {
   return (
@@ -19,7 +39,7 @@ function PostListItem({ id, title, content, publish_date, author }) {
         <Typography variant="h5" component="div">
           {title}
         </Typography>
-        <Typography variant="body2">{content}</Typography>
+        <PostContentPreview content={content} />
       </CardContent>
       <Stack
         direction="row"
