@@ -22,7 +22,7 @@ function NewPost() {
       <Typography variant="h5" sx={{ mb: 6 }}>
         Create a New Post
       </Typography>
-      <Collapse in={response.status}>
+      <Collapse in={Boolean(response.status)}>
         {response.status == 201 ? (
           <Alert sx={{ mb: 6 }}>Post created successfully!</Alert>
         ) : (
