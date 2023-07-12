@@ -1,4 +1,5 @@
 import { Box, Container, Stack, Typography } from "@mui/material";
+import Output from "editorjs-react-renderer";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -21,8 +22,6 @@ function PostDetails() {
     return () => {};
   }, []);
 
-  console.log(post);
-
   return (
     <Container maxWidth="lg" sx={{ py: 6 }}>
       {post && (
@@ -32,7 +31,13 @@ function PostDetails() {
             <Typography variant="body2">{post.publish_date}</Typography>
           </Stack>
 
-          {post.content}
+          <Typography variant="h4" gutterBottom>
+            {post.title}
+          </Typography>
+
+          <Box>
+            <Output data={JSON.parse(post.content)} />
+          </Box>
         </Box>
       )}
     </Container>
