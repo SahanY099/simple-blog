@@ -4,18 +4,25 @@ import dayjs from "dayjs";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 
+import PostContentEditor from "./post-content-editor.component";
+
 function PostForm({ onSubmit }) {
   const {
     control,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm({
     defaultValues: {
       title: "",
-      content: "",
+      content: "{}",
       publishDate: dayjs(),
     },
   });
+
+  function handleEditorChange(data) {
+    setValue("content", JSON.stringify(data));
+  }
 
   return (
     <Stack
@@ -39,7 +46,6 @@ function PostForm({ onSubmit }) {
           />
         )}
       />
-
       <Controller
         name="publishDate"
         control={control}
@@ -58,23 +64,8 @@ function PostForm({ onSubmit }) {
         )}
       />
 
-      <Controller
-        name="content"
-        control={control}
-        rules={{ required: "Content is required" }}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            multiline
-            rows={8}
-            error={Boolean(errors.content)}
-            label="Content"
-            helperText={errors.content && errors.content.message}
-            variant="outlined"
-            placeholder="Content of the post"
-          />
-        )}
-      />
+      <PostContentEditor onChange={handleEditorChange} />
+
       <Stack direction="row" justifyContent="end" gap={4}>
         <Button
           variant="contained"
