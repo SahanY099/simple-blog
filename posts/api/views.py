@@ -1,4 +1,9 @@
-from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
+from rest_framework.generics import (
+    ListAPIView,
+    CreateAPIView,
+    RetrieveAPIView,
+    UpdateAPIView,
+)
 from rest_framework.permissions import IsAuthenticated
 
 from posts.api.serializers import PostSerializer
@@ -23,3 +28,11 @@ class PostDetailView(RetrieveAPIView):
 
     def get_queryset(self):
         return Post.objects.all()
+
+
+class PostUpdateView(UpdateAPIView):
+    serializer_class = PostSerializer
+    lookup_url_kwarg = "id"
+
+    def get_queryset(self):
+        return Post.objects.filter(author=self.request.user)

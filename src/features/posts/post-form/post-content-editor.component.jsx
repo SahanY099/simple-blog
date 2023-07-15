@@ -2,44 +2,56 @@ import EditorJS from "@editorjs/editorjs";
 import Header from "@editorjs/header";
 import List from "@editorjs/list";
 import { Box, InputLabel } from "@mui/material";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-function PostContentEditor({ onChange }) {
-  const editorRef = useRef(null);
+function PostContentEditor({ onChange, currentPostContent }) {
   const editorjsContainerId = "editorjs-container";
+  const editorInstaceRef = useRef();
+  const [editorInstance, setEditorInstance] = useState();
+
+  function initEditor() {
+    const editor = new EditorJS({
+      holder: editorjsContainerId,
+      onReady: () => {
+        editorInstaceRef.current = editor;
+      },
+      tools: {
+        header: {
+          class: Header,
+          inlineToolbar: ["link"],
+        },
+        list: {
+          class: List,
+          inlineToolbar: true,
+        },
+      },
+      onChange: (api) => {
+        api.saver.save().then((data) => {
+          onChange(data);
+        });
+      },
+    });
+    return editor;
+  }
 
   useEffect(() => {
-    const initializeEditor = async () => {
-      editorRef.current = await new EditorJS({
-        holder: editorjsContainerId,
-        tools: {
-          header: {
-            class: Header,
-            inlineToolbar: ["link"],
-          },
-          list: {
-            class: List,
-            inlineToolbar: true,
-          },
-        },
-        onChange: (api) => {
-          api.saver.save().then((data) => {
-            onChange(data);
-          });
-        },
-      });
-    };
-
-    initializeEditor();
+    if (editorInstaceRef.current === null) {
+      setEditorInstance(initEditor());
+    }
 
     return () => {
-      if (editorRef.current) {
-        if (typeof editorRef.current.destroy === "function") {
-          editorRef.current.destroy();
-        }
-      }
+      editorInstaceRef?.current?.destroy();
+      editorInstaceRef.current = null;
     };
   }, []);
+
+  useEffect(() => {
+    if (editorInstance !== undefined && currentPostContent !== undefined) {
+      editorInstance.isReady?.then(() => {
+        editorInstaceRef.current.render(currentPostContent);
+      });
+    }
+  }, [currentPostContent]);
 
   return (
     <>

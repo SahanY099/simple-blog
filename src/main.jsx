@@ -1,4 +1,4 @@
-import { Home, Login, NewPost, PostDetails, Root } from "@routes";
+import { Home, Login, NewPost, PostDetails, Root, UpdatePost } from "@routes";
 import axios from "axios";
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -26,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/:postId",
         element: <PostDetails />,
+      },
+      {
+        path: "/:postId/update",
+        element: <UpdatePost />,
       },
     ],
   },

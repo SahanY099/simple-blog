@@ -1,12 +1,14 @@
 import { Button, Stack, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import PostContentEditor from "./post-content-editor.component";
 
-function PostForm({ onSubmit }) {
+function PostForm({ onSubmit, currentPost = {} }) {
+  const [content, setcontent] = useState({});
+
   const {
     control,
     handleSubmit,
@@ -19,6 +21,15 @@ function PostForm({ onSubmit }) {
       publishDate: dayjs(),
     },
   });
+
+  useEffect(() => {
+    if (Object.keys(currentPost).length !== 0) {
+      setValue("title", currentPost.title);
+      setValue("content", currentPost.content);
+      setValue("publishDate", dayjs(currentPost.publish_date));
+      setcontent(JSON.parse(currentPost.content));
+    }
+  }, [currentPost]);
 
   function handleEditorChange(data) {
     setValue("content", JSON.stringify(data));
@@ -64,7 +75,10 @@ function PostForm({ onSubmit }) {
         )}
       />
 
-      <PostContentEditor onChange={handleEditorChange} />
+      <PostContentEditor
+        onChange={handleEditorChange}
+        currentPostContent={content}
+      />
 
       <Stack direction="row" justifyContent="end" gap={4}>
         <Button
@@ -72,7 +86,7 @@ function PostForm({ onSubmit }) {
           type="submit"
           sx={{ mt: 2, fontWeight: 600 }}
         >
-          Create the post
+          {currentPost.title ? "Update the post" : "Create post"}
         </Button>
         <Button
           variant="contained"
