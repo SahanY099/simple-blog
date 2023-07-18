@@ -3,6 +3,7 @@ from rest_framework.generics import (
     CreateAPIView,
     RetrieveAPIView,
     UpdateAPIView,
+    DestroyAPIView,
 )
 from rest_framework.permissions import IsAuthenticated
 
@@ -32,6 +33,13 @@ class PostDetailView(RetrieveAPIView):
 
 class PostUpdateView(UpdateAPIView):
     serializer_class = PostSerializer
+    lookup_url_kwarg = "id"
+
+    def get_queryset(self):
+        return Post.objects.filter(author=self.request.user)
+
+
+class PostDeleteView(DestroyAPIView):
     lookup_url_kwarg = "id"
 
     def get_queryset(self):

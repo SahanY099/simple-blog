@@ -4,6 +4,7 @@ const PostListUrl = "/posts/list/";
 const PostCreateUrl = "/posts/create/";
 const PostDetailView = (id) => `/posts/${id}/details/`;
 const PostUpdateUrl = (id) => `/posts/${id}/update/`;
+const PostDeleteUrl = (id) => `/posts/${id}/delete/`;
 
 class PostService {
   static async getPosts() {
@@ -40,6 +41,15 @@ class PostService {
   static async getPost(id) {
     try {
       const res = await axios.get(PostDetailView(id));
+      return res;
+    } catch (error) {
+      return error.response;
+    }
+  }
+
+  static async deletePost(id) {
+    try {
+      const res = await axios.delete(PostDeleteUrl(id));
       return res;
     } catch (error) {
       return error.response;

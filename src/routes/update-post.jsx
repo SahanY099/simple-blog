@@ -1,8 +1,8 @@
-import { Alert, Collapse, Container, Typography } from "@mui/material";
+import { Alert, Collapse, Container, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-
-import { PostForm, PostService } from "@features/posts";
 import { useParams } from "react-router-dom";
+
+import { PostDeleteButton, PostForm, PostService } from "@features/posts";
 
 function UpdatePost() {
   const [response, setResponse] = useState({});
@@ -31,9 +31,12 @@ function UpdatePost() {
 
   return (
     <Container maxWidth="lg" sx={{ pt: 4 }}>
-      <Typography variant="h5" sx={{ mb: 6 }}>
-        Update Post
-      </Typography>
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Typography variant="h5" sx={{ mb: 6 }}>
+          Update Post
+        </Typography>
+        <PostDeleteButton />
+      </Stack>
       <Collapse in={Boolean(response.status)}>
         {response.status == 200 ? (
           <Alert sx={{ mb: 6 }}>Post updated successfully!</Alert>
