@@ -10,13 +10,14 @@ import {
 } from "@mui/material";
 import React, { useContext, useState } from "react";
 
-import MenuIcon from "@mui/icons-material/menu";
+import { AccountCircle, Menu as MenuIcon } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 import { AuthContext } from "@features/auth";
 import NavLink from "./nav-link.component";
-import { AccountCircle } from "@mui/icons-material";
 
 export default function Header() {
+  const navigate = useNavigate();
   const { user, logout } = useContext(AuthContext);
   const isAuthenticated = user.token != null;
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -87,6 +88,15 @@ export default function Header() {
                     onClose={handleCloseUserMenu}
                   >
                     <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
+                    <MenuItem
+                      href="/new-post"
+                      onClick={() => {
+                        handleCloseUserMenu();
+                        navigate("/new-post");
+                      }}
+                    >
+                      New Post
+                    </MenuItem>
                     <MenuItem
                       onClick={() => {
                         handleCloseUserMenu();
