@@ -7,7 +7,11 @@ from rest_framework.generics import (
 )
 from rest_framework.permissions import IsAuthenticated
 
-from posts.api.serializers import PostSerializer
+from posts.api.serializers import (
+    PostSerializer,
+    PostCreateSerializer,
+    PostUpdateSerializer,
+)
 from posts.models import Post
 
 
@@ -19,7 +23,7 @@ class PostListAPIView(ListAPIView):
 
 
 class PostAPICreateView(CreateAPIView):
-    serializer_class = PostSerializer
+    serializer_class = PostCreateSerializer
     permission_classes = [IsAuthenticated]
 
 
@@ -32,7 +36,7 @@ class PostDetailView(RetrieveAPIView):
 
 
 class PostUpdateView(UpdateAPIView):
-    serializer_class = PostSerializer
+    serializer_class = PostUpdateSerializer
     lookup_url_kwarg = "id"
 
     def get_queryset(self):

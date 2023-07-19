@@ -64,6 +64,7 @@ function PostForm({ onSubmit, currentPost = {} }) {
         render={({ field }) => (
           <DatePicker
             {...field}
+            disablePast
             label="Publish Date"
             slotProps={{
               textField: {
