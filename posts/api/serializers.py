@@ -37,3 +37,16 @@ class PostCreateSerializer(PostSerializer):
             )
 
         return data
+
+
+class PostUpdateSerializer(PostSerializer):
+    def validate_publish_date(self, new_publish_date):
+        now = timezone.now().date()
+        old_publish_date = self.instance.publish_date
+        if old_publish_date == new_publish_date:
+            # allow unchanged publishe dates of past to be saved
+            return new_publish_date
+        if new_publish_date < now:
+            # valiates whether publish date is set to past date
+            raise ValidationError("Publish date cannot be a past date")
+        return new_publish_date
