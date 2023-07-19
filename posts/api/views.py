@@ -7,7 +7,7 @@ from rest_framework.generics import (
 )
 from rest_framework.permissions import IsAuthenticated
 
-from posts.api.serializers import PostSerializer
+from posts.api.serializers import PostSerializer, PostCreateSerializer
 from posts.models import Post
 
 
@@ -19,7 +19,7 @@ class PostListAPIView(ListAPIView):
 
 
 class PostAPICreateView(CreateAPIView):
-    serializer_class = PostSerializer
+    serializer_class = PostCreateSerializer
     permission_classes = [IsAuthenticated]
 
 
