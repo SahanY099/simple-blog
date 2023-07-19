@@ -26,17 +26,14 @@ class PostCreateSerializer(PostSerializer):
         validated_data["author"] = self.context["request"].user
         return super().create(validated_data)
 
-    def validate(self, data):
+    def validate_publish_date(self, publish_date):
         now = timezone.now().date()
-        publish_date = data["publish_date"]
 
         if now > publish_date:
             # valiates whether publish date is set to past date
-            raise ValidationError(
-                {"publish_date": "Publish date cannot be a past date"}
-            )
+            raise ValidationError("Publish date cannot be a past date")
 
-        return data
+        return publish_date
 
 
 class PostUpdateSerializer(PostSerializer):
